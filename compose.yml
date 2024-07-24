@@ -1,0 +1,23 @@
+services:
+  almebic-app:
+    container_name: almebic-app
+    build: ./
+    tty: true
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+  mssql:
+    container_name: almebic-mssql
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1434:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=saPassword1234
+      - MSSQL_PID=Express
+      - MSSQL_LCID=1041
+      - MSSQL_COLLATION=Japanese_CI_AS
+    volumes:
+      - ./DB/DATA:/var/opt/mssql/data
+      - ./DB/LOG:/var/opt/mssql/log
+      - ./DB/secrets:/var/opt/mssql/secrets

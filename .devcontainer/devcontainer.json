@@ -1,0 +1,14 @@
+{
+    "name": "almebic_learn",
+    "service": "almebic-app",
+    "workspaceFolder": "/workspace",
+    "dockerComposeFile": "../compose.yml",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "github.copilot",
+            ]
+        }
+    }
+}
