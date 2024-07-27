@@ -1,3 +1,4 @@
+from importlib import import_module
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -15,6 +16,19 @@ config = context.config
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+def import_migration_module(module):
+    """マイグレーションに含めたいモジュールをimport."""        
+    for file_name in (p.name for p in Path(module).iterdir() if p.is_file()):
+        if file_name in {"__init__.py", "base.py"}:
+            continue
+        file_name = file_name.replace(".py", "")
+        module = module.replace("/", ".")
+        print(f"{module}.{file_name}")
+        import_module(f"{module}.{file_name}")
+
+# データモデルを記述しているディレクトリ名を指定
+import_migration_module("models/")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
