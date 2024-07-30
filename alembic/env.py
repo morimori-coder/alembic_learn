@@ -1,12 +1,18 @@
 from importlib import import_module
 from logging.config import fileConfig
+import sys
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+from app.db_setting.db_base import Base 
 
-from db_setting.db_base import Base
+import logging
+
+logger = logging.getLogger("alembic.env")
+handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(handler)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -17,18 +23,6 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-def import_migration_module(module):
-    """マイグレーションに含めたいモジュールをimport."""        
-    for file_name in (p.name for p in Path(module).iterdir() if p.is_file()):
-        if file_name in {"__init__.py", "base.py"}:
-            continue
-        file_name = file_name.replace(".py", "")
-        module = module.replace("/", ".")
-        print(f"{module}.{file_name}")
-        import_module(f"{module}.{file_name}")
-
-# データモデルを記述しているディレクトリ名を指定
-import_migration_module("models/")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
@@ -40,7 +34,6 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
