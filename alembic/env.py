@@ -8,6 +8,7 @@ from sqlalchemy import pool
 from alembic import context
 from app.db_setting.db_base import Base 
 
+
 import logging
 
 logger = logging.getLogger("alembic.env")
@@ -28,6 +29,10 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+# from app.models.todo import Todo
+from app.models.user import User
+from app.models.user2 import User2
+from app.models.todo import Todo
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
