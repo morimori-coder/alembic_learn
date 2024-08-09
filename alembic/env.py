@@ -33,6 +33,7 @@ if config.config_file_name is not None:
 from app.models.user import User
 from app.models.user2 import User2
 from app.models.todo import Todo
+from app.models.person import Person
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
