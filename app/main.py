@@ -8,8 +8,15 @@ from sqlalchemy.orm import Session
 from db_setting.db_base import SessionLocal
 from models.user import User
 from models.user2 import User2
-# データベースの初期化
-# init_db()
+import logging
+
+root_logger = logging.getLogger()
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+handler.setLevel(logging.DEBUG)
+root_logger.addHandler(handler)
+root_logger.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # セッションを取得
 db = SessionLocal()
@@ -47,17 +54,17 @@ new_user = User(name="John Doe", age=30)
 create_user(db, new_user)
 
 users = get_users(db)
-print("作成直後")
-print(users)
+logger.info("作成直後")
+logger.info(users)
 
 user = get_user(db, new_user.id)
-print("変更前")
-print(user)
+logger.info("変更前")
+logger.info(user)
 
 update_user(db, new_user.id, name="Jane Doe", age=25)
 user = get_user(db, new_user.id)
-print("変更後")
-print(user)
+logger.info("変更後")
+logger.info(user)
 # delete_user(db, new_user.id)
 
 db.close()
